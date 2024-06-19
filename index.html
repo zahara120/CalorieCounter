@@ -1,12 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="datauser.css">
     <link rel="stylesheet" href="style.css">
     <title>Calorie Counter</title>
 </head>
+
 <body>
-    <h1>coming soon!</h1>
+    <section class="form-containers" id="home">
+        <h1>Home Page</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('userData')">Lanjut</button>
+    </section>
+    <section class="form-container" id="userData">
+        <img src="/assets/img/img-1.png" alt="Image 1" class="form-image">
+        <form id="dataForm">
+            <div class="fields-container">
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="username">Nama</label>
+                        <input type="text" name="nama" id="username">
+                    </div>
+                    <div class="form-field">
+                        <label for="userage">Umur</label>
+                        <input type="number" name="umur" id="userage">
+                    </div>
+                </div>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="userheight">Tinggi (cm)</label>
+                        <input type="number" name="tinggi" id="userheight">
+                    </div>
+                    <div class="form-field">
+                        <label for="userweight">Berat (kg)</label>
+                        <input type="number" name="berat" id="userweight">
+                    </div>
+                </div>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="usergender">Jenis Kelamin</label>
+                        <select name="gender" id="usergender">
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="useractivity">Tingkat Aktivitas</label>
+                        <select name="activity" id="useractivity">
+                            <option value="sedentary">Sangat sedikit atau tidak ada olahraga</option>
+                            <option value="light">Olahraga ringan (1-3 hari/minggu)</option>
+                            <option value="moderate">Olahraga moderat (3-5 hari/minggu)</option>
+                            <option value="active">Olahraga berat (6-7 hari/minggu)</option>
+                            <option value="very_active">Olahraga sangat berat</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="primary-btn" style="margin-top: 10px;" onclick="greetings()">Lanjut</button>
+            </div>
+        </form>
+    </section>
+    <section class="form-containers" id="goals">
+        <h1>Set Goals</h1>
+        <span id="bmrResult"></span>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('meals')">Lanjut</button>
+    </section>
+    <section class="form-containers" id="meals">
+        <h1>Meals</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('result')">Lanjut</button>
+    </section>
+    <section class="form-containers" id="result">
+        <h1>Result</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('home')">Kembali</button>
+    </section>
 </body>
+
+<script>
+    // list makanan
+    let foods = [
+        { nama: 'nasi putih', kalori: 150 },
+        { nama: 'ayam goreng', kalori: 250 },
+        { nama: 'sayur bayam', kalori: 50 },
+        { nama: 'pisang', kalori: 100 },
+        { nama: 'roti tawar', kalori: 80 },
+        { nama: 'telur rebus', kalori: 70 },
+        { nama: 'ikan salmon panggang', kalori: 200 },
+        { nama: 'kacang almond', kalori: 160 },
+        { nama: 'susu rendah lemak', kalori: 90 },
+        { nama: 'yogurt plain', kalori: 120 },
+        { nama: 'apel', kalori: 50 },
+        { nama: 'wortel', kalori: 30 },
+        { nama: 'brokoli', kalori: 40 },
+        { nama: 'sereal gandum utuh', kalori: 120 },
+        { nama: 'roti gandum', kalori: 100 }
+    ];
+
+    function changepage(to) {
+        document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // calculate BMR nya, untuk tau jumlah kalori yang dibakar tubuh saat istirahat
+    function calculateBmr(data) {
+        let result = 0;
+        if (data.kelamin === 'male') {
+            result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur + 5;
+        } else if (data.kelamin === 'female') {
+            result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur - 161;
+        }
+        return result;
+    }
+
+    // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
+    function calculateTdee(bmr, data) {
+        let activityFactor = {
+            'sedentary': 1.2,
+            'light': 1.375,
+            'moderate': 1.55,
+            'active': 1.725,
+            'very_active': 1.9
+        }
+
+        return bmr * activityFactor[data.activity];
+    }
+
+    // adjust TDEE nya sesuai goals user, kalo dia mau lose weight tdee/kalori harus di kurang, dan sebalik nya
+    function adjustTdeeForGoal(tdee, goals) {
+        if (goals === 'gain') {
+            // kalo mau gain, biasanya naikin 250-500 kalori/hari
+            return tdee + 500
+        }
+        else if (goals === 'lose') {
+            // kalo mau lose, biasanya cut 500-1000 kalori/hari
+            return tdee - 500
+        }
+        else {
+            return tdee
+        }
+    }
+
+    // itung kalori dari makanan yang user input, buat di compare sama tdee(kalori harian) user
+    function calculteCaloriesInFood(foods) {
+
+    }
+
+    function greetings() {
+        event.preventDefault();
+        const form = document.getElementById('dataForm');
+
+        // Ambil value
+        const nama = form.querySelector('#username').value;
+        const umur = form.querySelector('#userage').value;
+        const tinggi = form.querySelector('#userheight').value;
+        const berat = form.querySelector('#userweight').value;
+        const kelamin = form.querySelector('#usergender').value;
+        const activity = form.querySelector('#useractivity').value;
+
+        if (nama === '' || umur === '' || tinggi === '' || berat === '' || kelamin === '' || activity === '') {
+            alert('Harap lengkapi semua kolom sebelum melanjutkan!');
+            return;
+        }
+
+        // tampung value
+        let user = {
+            nama,
+            umur,
+            tinggi,
+            berat,
+            kelamin,
+            activity
+        };
+
+        // calculate BMR nya, untuk tau jumlah kalori yang dibakar tubuh saat istirahat
+        let bmr = calculateBmr(user);
+
+        // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
+        let tdee = calculateTdee(bmr, user);
+
+        // adjust TDEE nya sesuai goals user, kalo dia mau lose weight tdee/kalori harus di kurang, dan sebalik nya
+        let adjust = adjustTdeeForGoal(tdee, 'gain'); //masih hardcode
+
+        // tambahin data user
+        user['BMR'] = bmr
+        user['TDEE'] = adjust
+
+        // Menampilkan hasil BMR di halaman
+        document.getElementById('bmrResult').innerText = `Tubuh Anda membakar ${bmr} kalori saat istirahat, TDEE anda ${tdee}`;
+
+        console.log(user, bmr, tdee);
+
+        // pindah section ke goals
+        changepage('goals');
+    }
+
+</script>
+
 </html>
