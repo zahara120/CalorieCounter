@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,42 @@
     <link rel="stylesheet" href="style.css">
     <title>Calorie Counter</title>
 </head>
+
 <body>
-    
+    <div class="form-container">
+        <img src="/assets/img/img-1.png" alt="Image 1" class="form-image">
+        <form>
+            <div class="fields-container">
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="name1">Nama</label>
+                        <input type="text" name="username1" id="name1">
+                    </div>
+                    <div class="form-field">
+                        <label for="name2">Umur</label>
+                        <input type="number" name="username2" id="name2">
+                    </div>
+                </div>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="name3">Tinggi</label>
+                        <input type="number" name="username3" id="name3">
+                    </div>
+                    <div class="form-field">
+                        <label for="name4">Berat</label>
+                        <input type="number" name="username4" id="name4">
+                    </div>
+                </div>
+                <button class="primary-btn" style="margin-top: 20px;" onclick="greetings()">Lanjut</button>
+            </div>
+        </form>
+    </div>
 </body>
+
+<script>
+    function greetings(){
+        alert("halo")
+    }
+</script>
+
 </html>
