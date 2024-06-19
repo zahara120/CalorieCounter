@@ -30,20 +30,42 @@
                 </div>
                 <div class="field-box">
                     <div class="form-field">
-                        <label for="userheight">Tinggi</label>
+                        <label for="userheight">Tinggi (cm)</label>
                         <input type="number" name="tinggi" id="userheight">
                     </div>
                     <div class="form-field">
-                        <label for="userweight">Berat</label>
+                        <label for="userweight">Berat (kg)</label>
                         <input type="number" name="berat" id="userweight">
                     </div>
                 </div>
-                <button class="primary-btn" style="margin-top: 20px;" onclick="greetings()">Lanjut</button>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="usergender">Jenis Kelamin</label>
+                        <select name="gender" id="usergender">
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-box">
+                    <div class="form-field">
+                        <label for="useractivity">Tingkat Aktivitas</label>
+                        <select name="activity" id="useractivity">
+                            <option value="sedentary">Sangat sedikit atau tidak ada olahraga</option>
+                            <option value="light">Olahraga ringan (1-3 hari/minggu)</option>
+                            <option value="moderate">Olahraga moderat (3-5 hari/minggu)</option>
+                            <option value="active">Olahraga berat (6-7 hari/minggu)</option>
+                            <option value="very_active">Olahraga sangat berat</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="primary-btn" style="margin-top: 10px;" onclick="greetings()">Lanjut</button>
             </div>
         </form>
     </section>
     <section class="form-containers" id="goals">
         <h1>Set Goals</h1>
+        <span id="bmrResult"></span>
         <button class="primary-btn" style="width: 40%;" onclick="changepage('meals')">Lanjut</button>
     </section>
     <section class="form-containers" id="meals">
@@ -57,9 +79,44 @@
 </body>
 
 <script>
-    function changepage(to){
+    function changepage(to) {
         document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
     }
+
+    function calculateBmr(data) {
+        let result = 0;
+        if (data.kelamin === 'male') {
+            result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur + 5;
+        } else if (data.kelamin === 'female') {
+            result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur - 161;
+        }
+        return result;
+    }
+
+    function calculateTdee(bmr, data) {
+        let activityFactor = {
+            'sedentary': 1.2,
+            'light': 1.375,
+            'moderate': 1.55,
+            'active': 1.725,
+            'very_active': 1.9
+        }
+
+        return bmr * activityFactor[data.activity];
+    }
+
+    function adjustTdeeForGoal(tdee, data) {
+        let activityFactor = {
+            'sedentary': 1.2,
+            'light': 1.375,
+            'moderate': 1.55,
+            'active': 1.725,
+            'very_active': 1.9
+        }
+
+        return bmr * activityFactor[data.activity];
+    }
+
     function greetings() {
         event.preventDefault();
         const form = document.getElementById('dataForm');
@@ -69,8 +126,10 @@
         const umur = form.querySelector('#userage').value;
         const tinggi = form.querySelector('#userheight').value;
         const berat = form.querySelector('#userweight').value;
+        const kelamin = form.querySelector('#usergender').value;
+        const activity = form.querySelector('#useractivity').value;
 
-        if (nama === '' || umur === '' || tinggi === '' || berat === '') {
+        if (nama === '' || umur === '' || tinggi === '' || berat === '' || kelamin === '' || activity === '') {
             alert('Harap lengkapi semua kolom sebelum melanjutkan!');
             return;
         }
@@ -80,14 +139,30 @@
             nama,
             umur,
             tinggi,
-            berat
-        }
-        // alert(`Halo ${user.nama}!`);
-        console.log(user.nama.length);
+            berat,
+            kelamin,
+            activity
+        };
+
+        // calculate BMR nya, untuk tau jumlah kalori yang dibakar tubuh saat istirahat
+        let bmr = calculateBmr(user);
+
+        // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
+        let tdee = calculateTdee(bmr, user);
+
+        // tambahin data user
+        user['BMR'] = bmr
+        user['TDEE'] = tdee
+
+        // Menampilkan hasil BMR di halaman
+        document.getElementById('bmrResult').innerText = `Tubuh Anda membakar ${bmr} kalori saat istirahat, TDEE anda ${tdee}`;
+
+        console.log(user, bmr, tdee);
 
         // pindah section ke goals
-        changepage('goals')
+        changepage('goals');
     }
+
 </script>
 
 </html>

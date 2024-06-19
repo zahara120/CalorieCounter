@@ -27,7 +27,6 @@ section{
     flex-direction: column;
     gap: 20px;
     width: 100%;
-    margin-top: 100px;
 }
 
 .field-box {
@@ -45,6 +44,13 @@ section{
 }
 
 input{
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background: #F3F3F3;
+}
+
+select{
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
