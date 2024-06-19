@@ -10,39 +10,83 @@
 </head>
 
 <body>
-    <div class="form-container">
+    <section class="form-containers" id="home">
+        <h1>Home Page</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('userData')">Lanjut</button>
+    </section>
+    <section class="form-container" id="userData">
         <img src="/assets/img/img-1.png" alt="Image 1" class="form-image">
-        <form>
+        <form id="dataForm">
             <div class="fields-container">
                 <div class="field-box">
                     <div class="form-field">
-                        <label for="name1">Nama</label>
-                        <input type="text" name="username1" id="name1">
+                        <label for="username">Nama</label>
+                        <input type="text" name="nama" id="username">
                     </div>
                     <div class="form-field">
-                        <label for="name2">Umur</label>
-                        <input type="number" name="username2" id="name2">
+                        <label for="userage">Umur</label>
+                        <input type="number" name="umur" id="userage">
                     </div>
                 </div>
                 <div class="field-box">
                     <div class="form-field">
-                        <label for="name3">Tinggi</label>
-                        <input type="number" name="username3" id="name3">
+                        <label for="userheight">Tinggi</label>
+                        <input type="number" name="tinggi" id="userheight">
                     </div>
                     <div class="form-field">
-                        <label for="name4">Berat</label>
-                        <input type="number" name="username4" id="name4">
+                        <label for="userweight">Berat</label>
+                        <input type="number" name="berat" id="userweight">
                     </div>
                 </div>
                 <button class="primary-btn" style="margin-top: 20px;" onclick="greetings()">Lanjut</button>
             </div>
         </form>
-    </div>
+    </section>
+    <section class="form-containers" id="goals">
+        <h1>Set Goals</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('meals')">Lanjut</button>
+    </section>
+    <section class="form-containers" id="meals">
+        <h1>Meals</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('result')">Lanjut</button>
+    </section>
+    <section class="form-containers" id="result">
+        <h1>Result</h1>
+        <button class="primary-btn" style="width: 40%;" onclick="changepage('home')">Kembali</button>
+    </section>
 </body>
 
 <script>
-    function greetings(){
-        alert("halo")
+    function changepage(to){
+        document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
+    }
+    function greetings() {
+        event.preventDefault();
+        const form = document.getElementById('dataForm');
+
+        // Ambil value
+        const nama = form.querySelector('#username').value;
+        const umur = form.querySelector('#userage').value;
+        const tinggi = form.querySelector('#userheight').value;
+        const berat = form.querySelector('#userweight').value;
+
+        if (nama === '' || umur === '' || tinggi === '' || berat === '') {
+            alert('Harap lengkapi semua kolom sebelum melanjutkan!');
+            return;
+        }
+
+        // tampung value
+        let user = {
+            nama,
+            umur,
+            tinggi,
+            berat
+        }
+        // alert(`Halo ${user.nama}!`);
+        console.log(user.nama.length);
+
+        // pindah section ke goals
+        changepage('goals')
     }
 </script>
 
