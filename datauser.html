@@ -79,10 +79,30 @@
 </body>
 
 <script>
+    // list makanan
+    let foods = [
+        { nama: 'nasi putih', kalori: 150 },
+        { nama: 'ayam goreng', kalori: 250 },
+        { nama: 'sayur bayam', kalori: 50 },
+        { nama: 'pisang', kalori: 100 },
+        { nama: 'roti tawar', kalori: 80 },
+        { nama: 'telur rebus', kalori: 70 },
+        { nama: 'ikan salmon panggang', kalori: 200 },
+        { nama: 'kacang almond', kalori: 160 },
+        { nama: 'susu rendah lemak', kalori: 90 },
+        { nama: 'yogurt plain', kalori: 120 },
+        { nama: 'apel', kalori: 50 },
+        { nama: 'wortel', kalori: 30 },
+        { nama: 'brokoli', kalori: 40 },
+        { nama: 'sereal gandum utuh', kalori: 120 },
+        { nama: 'roti gandum', kalori: 100 }
+    ];
+
     function changepage(to) {
         document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
     }
 
+    // calculate BMR nya, untuk tau jumlah kalori yang dibakar tubuh saat istirahat
     function calculateBmr(data) {
         let result = 0;
         if (data.kelamin === 'male') {
@@ -93,6 +113,7 @@
         return result;
     }
 
+    // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
     function calculateTdee(bmr, data) {
         let activityFactor = {
             'sedentary': 1.2,
@@ -105,16 +126,24 @@
         return bmr * activityFactor[data.activity];
     }
 
-    function adjustTdeeForGoal(tdee, data) {
-        let activityFactor = {
-            'sedentary': 1.2,
-            'light': 1.375,
-            'moderate': 1.55,
-            'active': 1.725,
-            'very_active': 1.9
+    // adjust TDEE nya sesuai goals user, kalo dia mau lose weight tdee/kalori harus di kurang, dan sebalik nya
+    function adjustTdeeForGoal(tdee, goals) {
+        if (goals === 'gain') {
+            // kalo mau gain, biasanya naikin 250-500 kalori/hari
+            return tdee + 500
         }
+        else if (goals === 'lose') {
+            // kalo mau lose, biasanya cut 500-1000 kalori/hari
+            return tdee - 500
+        }
+        else {
+            return tdee
+        }
+    }
 
-        return bmr * activityFactor[data.activity];
+    // itung kalori dari makanan yang user input, buat di compare sama tdee(kalori harian) user
+    function calculteCaloriesInFood(foods) {
+        
     }
 
     function greetings() {
@@ -150,9 +179,12 @@
         // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
         let tdee = calculateTdee(bmr, user);
 
+        // adjust TDEE nya sesuai goals user, kalo dia mau lose weight tdee/kalori harus di kurang, dan sebalik nya
+        let adjust = adjustTdeeForGoal(tdee, 'gain'); //masih hardcode
+
         // tambahin data user
         user['BMR'] = bmr
-        user['TDEE'] = tdee
+        user['TDEE'] = adjust
 
         // Menampilkan hasil BMR di halaman
         document.getElementById('bmrResult').innerText = `Tubuh Anda membakar ${bmr} kalori saat istirahat, TDEE anda ${tdee}`;
