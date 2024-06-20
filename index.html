@@ -100,7 +100,7 @@
             </div>
         </div>
     </section>
-    <section class="form-containers" id="meals">
+    <section id="meals">
         <!-- <h1>Meals</h1>
         <button class="primary-btn" style="width: 40%;" onclick="changepage('result')">Lanjut</button> -->
         <div class="container container-makanApa">
@@ -124,7 +124,7 @@
                 <div class="container-kalori">
                     <div class="calori-number">
                         <h4>Kalorimu</h4>
-                        <h3>0</h3>
+                        <h3 id="calCount">0</h3>
                     </div>
                     <div style="width: 70%;" class="meal-entry">
                         <!-- <label for="meal">Pilih Makananmu</label> -->
@@ -151,7 +151,8 @@
         'tinggi': '',
         'berat': '',
         'kelamin': '',
-        'activity': ''
+        'activity': '',
+        'kalori makanan': 0
     };
     // list makanan
     let foods = [
@@ -174,6 +175,8 @@
 
     function changepage(to) {
         document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
+
+        console.log(user);
     }
 
     // calculate BMR nya, untuk tau jumlah kalori yang dibakar tubuh saat istirahat
@@ -279,25 +282,75 @@
     // Bagian table
     let numberCounter = 0;
     let tableValue = [];
-    let tableContent = document.getElementById('tableBody').innerHTML;
+    let calorieCounted = 0;
 
-    for (let i = 0; i < tableValue.length; i++) {
-        tableContent += `
-                        <tr>
-                            <td>${numberCounter += 1}</td>
-                            <td>${tableValue[i].makanan}</td>
-                            <td>${tableValue[i].kalori}</td>
-                            <td>${tableValue[i].jumlah}</td>
-                            <td>
-                                <button type="button" class="btn btn-outline-success">+</button>
-                                <button type="button" class="btn btn-outline-primary">-</button>
-                                <button type="button" class="btn btn-outline-danger">Hapus</button>
-                            </td>
-                        </tr>
-                        `
+    function calorieCount() {
+        calorieCounted = 0;
+        for (let i = 0; i < tableValue.length; i++) {
+            let number = tableValue[i].kalori * tableValue[i].jumlah
+            calorieCounted += number;
+        }
+
+        user['kalori makanan'] = calorieCounted
     }
 
-    document.getElementById('tableBody').innerHTML = tableContent;
+    function buttonAction(type, index, id) {
+        for (let i = 0; i < tableValue.length; i++) {
+            if (index === tableValue[i].nama) {
+                if (type === '+') {
+                    tableValue[i].jumlah += 1;
+                    tableValue[i].totalCal += tableValue[i].kalori;
+                    document.getElementById(`colCal-${index}`).innerText = tableValue[i].totalCal;
+                    document.getElementById(`colQty-${index}`).innerText = tableValue[i].jumlah;
+                } else if (type === '-') {
+                    if (tableValue[i].jumlah > 1) {
+                        tableValue[i].jumlah -= 1;
+                        tableValue[i].totalCal -= tableValue[i].kalori;
+                        document.getElementById(`colCal-${index}`).innerText = tableValue[i].totalCal;
+                        document.getElementById(`colQty-${index}`).innerText = tableValue[i].jumlah;
+                    }
+                } else if (type === 'hapus') {
+                    for (let j = 0; j < tableValue.length; j++) {
+                        if (tableValue[j].id === id) {
+                            foods.push({ nama: tableValue[j].nama, kalori: tableValue[j].kalori })
+                            tableValue.splice(j, 1)
+                            break;
+                        }
+                    }
+
+                    let tableContent = '';
+                    numberCounter = 0;
+                    document.getElementById('tableBody').innerHTML = '';
+
+                    for (let i = 0; i < tableValue.length; i++) {
+                        numberCounter++;
+                        tableValue[i].id = numberCounter;
+                        tableContent += `
+                                        <tr>
+                                            <td>${numberCounter}</td>
+                                            <td>${tableValue[i].nama}</td>
+                                            <td id="colCal-${tableValue[i].nama}">${tableValue[i].totalCal}</td>
+                                            <td id="colQty-${tableValue[i].nama}">${tableValue[i].jumlah}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-success" onclick="buttonAction('+', '${tableValue[i].nama}')">+</button>
+                                                <button type="button" class="btn btn-outline-primary" onclick="buttonAction('-', '${tableValue[i].nama}')">-</button>
+                                                <button type="button" class="btn btn-outline-danger" onclick="buttonAction('hapus', '${tableValue[i].nama}', ${tableValue[i].id})">Hapus</button>
+                                            </td>
+                                        </tr>
+                                        `
+                    }
+
+                    document.getElementById('tableBody').innerHTML = tableContent;
+                    console.log(tableContent);
+                    updateFoodsMaterials();
+
+                }
+            }
+        }
+        calorieCount()
+        document.getElementById('calCount').innerText = calorieCounted;
+        user['kalori makanan'] = calorieCounted
+    }
 
     // Bagian calorie counter dan tambah makanan
     let selectOption = document.getElementById('meal').innerHTML;
@@ -308,26 +361,45 @@
 
     document.getElementById('meal').innerHTML = selectOption;
 
+    function updateFoodsMaterials() {
+        selectOption = '';
+
+        for (let i = 0; i < foods.length; i++) {
+            selectOption += `<option value="${foods[i].nama}">${foods[i].nama}</option>`
+        }
+
+        document.getElementById('meal').innerHTML = selectOption;
+    }
+
     function addMeal() {
         let selected = document.getElementById('meal').value;
         for (let i = 0; i < foods.length; i++) {
             if (selected === foods[i].nama) {
+                foods[i]['id'] = numberCounter;
                 foods[i]['jumlah'] = 1;
+                foods[i]['totalCal'] = foods[i].kalori;
                 tableValue.push(foods[i]);
                 document.getElementById('tableBody').innerHTML +=
                     `
                     <tr>
                         <td>${numberCounter += 1}</td>
                         <td>${foods[i].nama}</td>
-                        <td>${foods[i].kalori}</td>
-                        <td>${1}</td>
+                        <td id="colCal-${foods[i].nama}">${foods[i].totalCal}</td>
+                        <td id="colQty-${foods[i].nama}">${1}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-success">+</button>
-                            <button type="button" class="btn btn-outline-primary">-</button>
-                            <button type="button" class="btn btn-outline-danger">Hapus</button>
+                            <button type="button" class="btn btn-outline-success" onclick="buttonAction('+', '${foods[i].nama}')">+</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="buttonAction('-', '${foods[i].nama}')">-</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="buttonAction('hapus', '${foods[i].nama}', ${foods[i].id})">Hapus</button>
                         </td>
                     </tr>
-                `
+                `;
+
+                calorieCount();
+                document.getElementById('calCount').innerText = calorieCounted;
+                user['kalori makanan'] = calorieCounted
+
+                foods.splice(i, 1)
+                updateFoodsMaterials();
             }
         }
     }
