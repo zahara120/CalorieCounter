@@ -1,0 +1,56 @@
+* {
+    margin-top: -1000px;;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 3%;
+}
+
+h3 {
+    font-weight: lighter;
+    text-align: center;
+    font-size: 30px;
+}
+
+img {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -140px;
+}
+
+.cal {
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -290px;
+}
+
+.bottom-line1 {
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12%;
+}
+
+.bottom-line2 {
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0%;
+}
+
+.bottom-line3 {
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0%;
+    margin-bottom: 3%;
+}
