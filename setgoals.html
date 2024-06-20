@@ -110,7 +110,6 @@
                     }
                 }else if(type === 'hapus'){
                     for(let j = 0; j < tableValue.length; j++){
-                        console.log(tableValue[j].id === id, tableValue[j].id, id)
                         if(tableValue[j].id === id){
                             foods.push({nama: tableValue[j].nama, kalori: tableValue[j].kalori})
                             tableValue.splice(j, 1)
@@ -129,8 +128,8 @@
                                         <tr>
                                             <td>${numberCounter}</td>
                                             <td>${tableValue[i].nama}</td>
-                                            <td>${tableValue[i].totalCal}</td>
-                                            <td>${tableValue[i].jumlah}</td>
+                                            <td id="colCal-${tableValue[i].nama}">${tableValue[i].totalCal}</td>
+                                            <td id="colQty-${tableValue[i].nama}">${tableValue[i].jumlah}</td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-success" onclick="buttonAction('+', '${tableValue[i].nama}')">+</button>
                                                 <button type="button" class="btn btn-outline-primary" onclick="buttonAction('-', '${tableValue[i].nama}')">-</button>
@@ -141,7 +140,9 @@
                     }
 
                     document.getElementById('tableBody').innerHTML = tableContent;
-                    updateFoodsMaterials()
+                    console.log(tableContent);
+                    updateFoodsMaterials();
+
                 }
             }
         }
