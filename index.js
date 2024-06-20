@@ -27,16 +27,21 @@ let foods = [
 ];
 
 function changepage(to) {
-    document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
+    // document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
     document.getElementById('namauser').innerText = `Hai, ${user.nama}`
 
+    document.getElementById(to).style.display = 'flex';
+    setTimeout(function () {
+        document.getElementById(to).scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+
     if (to === 'result') {
-        showResult()
-        compareCalorie()
+        showResult();
+        compareCalorie();
     }
 
-    if(to === 'home') {
-        setTimeout(function() {
+    if (to === 'home') {
+        setTimeout(function () {
             location.reload();
         }, 1000);
     }
@@ -51,7 +56,7 @@ function calculateBmr(data) {
     } else if (data.kelamin === 'female') {
         result = 655 + (9.6 * +data.berat) + (1.8 * +data.tinggi) - (4.7 * +data.umur);
     }
-    return Number(result.toFixed(1)); 
+    return Number(result.toFixed(1));
 }
 
 
@@ -97,15 +102,36 @@ function adjustTdeeForGoal(tdee, goals) {
 
 // compare sama tdee(kalori harian) user
 function compareCalorie() {
-    if ((user['BMR'] + user['kalori makanan']) > user['TDEE']) {
-        document.getElementById('conclusion').innerText = `Kamu kelebihan kalori hari ini, kebutuhan kalori kamu perhari (TDEE) ${user['TDEE']}, kalori kamu hari ini ${user['BMR'] + user['kalori makanan']}`
-    }
-    else if (user['kalori makanan'] < user['TDEE']) {
-        document.getElementById('conclusion').innerText = `Kalori kamu kurang hari ini, kebutuhan kalori kamu perhari (TDEE) ${user['TDEE']}, kalori kamu hari ini ${user['BMR'] + user['kalori makanan']}`
+    const totalKalori = user['BMR'] + user['kalori makanan'];
+    const TDEE = user['TDEE'];
+
+    if (totalKalori > TDEE) {
+        document.getElementById('conclusion').innerText = `Kamu kelebihan kalori hari ini, kebutuhan kalori kamu perhari (TDEE) ${TDEE}, kalori kamu hari ini ${totalKalori}`;
+        document.querySelectorAll('#data-box, #kalori-box, #hasil-box').forEach(box => {
+            box.style.backgroundColor = '#ff8f8f';
+        });
+        document.querySelectorAll('.calorie-box').forEach(box => {
+            box.style.backgroundColor = '#eb3c3c';
+        });
+    } else if (totalKalori < TDEE) {
+        document.getElementById('conclusion').innerText = `Kalori kamu kurang hari ini, kebutuhan kalori kamu perhari (TDEE) ${TDEE}, kalori kamu hari ini ${totalKalori}`;
+        document.querySelectorAll('#data-box, #kalori-box, #hasil-box').forEach(box => {
+            box.style.backgroundColor = '#ffe494';
+        });
+        document.querySelectorAll('.calorie-box').forEach(box => {
+            box.style.backgroundColor = '#ffc107';
+        });
     } else {
-        document.getElementById('conclusion').innerText = `Konsumsi kalori Anda hari ini sudah tepat.`
+        document.getElementById('conclusion').innerText = `Konsumsi kalori Anda hari ini sudah tepat. Kebutuhan kalori kamu perhari (TDEE) ${TDEE}, kalori kamu hari ini ${totalKalori}`;
+        document.querySelectorAll('#data-box, #kalori-box, #hasil-box').forEach(box => {
+            box.style.backgroundColor = '#a4f4a4'; // Warna hijau untuk menunjukkan keseimbangan
+        });
+        document.querySelectorAll('.calorie-box').forEach(box => {
+            box.style.backgroundColor = '#28a745'; // Warna hijau untuk menunjukkan keseimbangan
+        });
     }
 }
+
 
 function greetings() {
     event.preventDefault();
