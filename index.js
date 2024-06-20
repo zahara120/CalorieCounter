@@ -47,12 +47,13 @@ function changepage(to) {
 function calculateBmr(data) {
     let result = 0;
     if (data.kelamin === 'male') {
-        result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur + 5;
+        result = 66 + (13.7 * +data.berat) + (5 * +data.tinggi) - (6.8 * +data.umur);
     } else if (data.kelamin === 'female') {
-        result = 10 * +data.berat + 6.25 * +data.tinggi - 5 * +data.umur - 161;
+        result = 655 + (9.6 * +data.berat) + (1.8 * +data.tinggi) - (4.7 * +data.umur);
     }
-    return result;
+    return Number(result.toFixed(1)); 
 }
+
 
 // calculate TDEE nya, untuk tau jumlah kalori yang dibutuhkan tubuh dalam sehari
 function calculateTdee(bmr, data) {
