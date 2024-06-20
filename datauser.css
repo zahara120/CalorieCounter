@@ -57,16 +57,4 @@ select{
     background: #F3F3F3;
 }
 
-.primary-btn{
-    background-color: #66C84D;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    width: 20%;
-    cursor: pointer;
-}
 
-.primary-btn:hover{
-    background-color: #59ae44;
-}
