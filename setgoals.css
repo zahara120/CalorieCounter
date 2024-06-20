@@ -30,6 +30,11 @@
     border: none;
 }
 
+.container-item img{
+    width: 300px;
+    height: 300px;
+}
+
 .container-menurunkan{
     background-color: #DE2828;
 }
