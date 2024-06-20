@@ -1,0 +1,36 @@
+img {
+    width: 50%;
+    padding-top: 28px;
+    margin: right;
+    float: right;
+}
+
+h1 {
+    font-size: 80px;
+    padding: 110px;
+}
+
+h2 {
+    font-size: 28px;
+    padding: 10px -10px;
+    padding-left: 4.5%;
+    margin-right: 3.7%;
+    float: center;
+    margin-top: -4%;
+    margin-bottom: 4%;
+    justify-content: left;
+    font-weight: lighter;
+}
+
+.primary-btn{
+    background-color: #66C84D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    width: 10%;
+    cursor: pointer;
+    float: right;
+    margin-left: 10%;
+    position: relative;
+}
