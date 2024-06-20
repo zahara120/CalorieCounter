@@ -38,6 +38,11 @@ function changepage(to) {
     if (to === 'result') {
         showResult();
         compareCalorie();
+        let bmi = calculateBMI(user.berat, user.tinggi)
+        let saran = categorizeBMI(bmi)
+        user['BMI'] = bmi
+
+        document.getElementById('bmi').innerText = saran
     }
 
     if (to === 'home') {
@@ -308,4 +313,44 @@ function showResult() {
     document.getElementById('bmrResult').innerText = user['BMR'];
     document.getElementById('tdeeResult').innerText = user['TDEE'];
     document.getElementById('kaloriMakanan').innerText = user['kalori makanan'];
+}
+
+// menghitung BMI
+function calculateBMI(berat, tinggi) {
+    // Konversi tinggi dari cm ke meter
+    tinggi = tinggi / 100;
+
+    let bmi = berat / (tinggi * tinggi);
+
+    bmi = bmi.toFixed(2);
+
+    return bmi;
+}
+
+// mengkategorikan BMI
+function categorizeBMI(bmi) {
+    let result = '';
+
+    if (bmi < 18.5) {
+        result = "Berat badan kurang";
+    } else if (bmi >= 18.5 && bmi <= 24.9) {
+        result = "Berat badan normal";
+    } else if (bmi >= 25 && bmi <= 29.9) {
+        result = "Berat badan berlebih (overweight)";
+    } else {
+        result = "Obesitas";
+    }
+
+    switch (result) {
+        case "Berat badan kurang":
+            return `BMI kamu ${bmi}, menunjukkan berat badan kurang. Pastikan untuk memperbanyak asupan nutrisi dan konsultasikan dengan ahli gizi untuk mendapatkan nasihat yang tepat.`;
+        case "Berat badan normal":
+            return `BMI kamu ${bmi}, berada dalam kisaran berat badan normal. Pertahankan pola makan sehat dan rutin berolahraga untuk menjaga kesehatan secara keseluruhan.`;
+        case "Berat badan berlebih (overweight)":
+            return `BMI kamu ${bmi}, menunjukkan berat badan berlebih. Perbanyak olahraga dan perhatikan pola makan sehat untuk menurunkan berat badan secara bertahap.`;
+        case "Obesitas":
+            return `BMI kamu ${bmi}, menunjukkan obesitas. Penting untuk mengubah gaya hidup dengan mengatur pola makan sehat dan rutin berolahraga untuk mengurangi risiko masalah kesehatan yang lebih serius.`;
+        default:
+            return "Tidak dapat memberikan saran karena kategori BMI tidak valid.";
+    }
 }
