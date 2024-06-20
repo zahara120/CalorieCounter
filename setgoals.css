@@ -1,0 +1,135 @@
+.container-setGoals{
+    /* background-color: aqua; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: -20px; */
+}
+
+.title{
+    margin-bottom: 50px;
+}
+
+.selection-items{
+    display: flex;
+    gap: 20px;
+}
+
+.container-item{
+    border-radius: 20px;
+    height: 340px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    transition: filter 0.3s ease; 
+    border: none;
+}
+
+.container-menurunkan{
+    background-color: #DE2828;
+}
+.container-menjaga{
+    background-color: #2454CD;
+}
+.container-menaikan{
+    background-color: #E1A64D;
+}
+
+.container-item:hover{
+    filter: drop-shadow(10px 10px 20px rgba(36, 36, 36, 0.5)); 
+}
+
+.item-text{
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+}
+
+/* halaman meals */
+.container-makanApa{
+    /* background-color: #E1A64D; */
+    height: 100vh;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.table-meals{
+    align-items: flex-start;
+    width: 80%;
+    height: 100%;
+    margin-top: 50px;
+}
+
+.container-meals-bawah{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.container-kalori{
+    /* background-color: #2454CD; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    /* border-radius: 20px; */
+}
+
+.calori-number{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 1px;
+}
+
+.meal-entry{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#meal{
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background: #F3F3F3;
+}
+
+.button-masukan-meal{
+    margin-left: 10px;
+    width: 150px;
+    background-color: #f3f3f3;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.primary-btn{
+    background-color: #66C84D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+}
