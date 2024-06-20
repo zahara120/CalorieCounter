@@ -4,15 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="datauser.css">
     <link rel="stylesheet" href="style.css">
     <title>Calorie Counter</title>
 </head>
 
 <body>
-    <section class="form-containers" id="home">
-        <h1>Home Page</h1>
-        <button class="primary-btn" style="width: 40%;" onclick="changepage('userData')">Lanjut</button>
+    <section id="home">
+        <div class="box-desc">
+            <h1 class="title">CalorieCounter</h1>
+            <p class="desc">
+                CalorieCounter adalah situs web sederhana dan efektif yang membantu Anda memantau asupan kalori harian
+                Anda sesuai dengan tujuan kesehatan Anda, apakah itu menurunkan berat badan, menambah berat badan, atau
+                mempertahankan berat badan.
+            </p>
+            <button class="primary-btn" style="margin-top: 10px;" onclick="changepage('userData')">Lanjut</button>
+        </div>
+        <img src="assets/img/people-and-technology.png" alt="image 1">
     </section>
     <section class="form-container" id="userData">
         <img src="assets/img/img-1.png" alt="Image 1" class="form-image">
