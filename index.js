@@ -82,6 +82,7 @@ function calculateTdee(bmr, data) {
 function getGoals(value) {
     // panggil adjustTdeeForGoal
     let adjustTdee = adjustTdeeForGoal(user['TDEE'], value)
+    user['goals'] = value
     user['TDEE'] = adjustTdee
 
     changepage('meals')
