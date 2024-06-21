@@ -108,7 +108,7 @@ function adjustTdeeForGoal(tdee, goals) {
 
 // compare sama tdee(kalori harian) user
 function compareCalorie() {
-    const totalKalori = user['BMR'] + user['kalori makanan'];
+    const totalKalori = user['kalori makanan'];
     const TDEE = user['TDEE'];
 
     if (totalKalori > TDEE) {
